@@ -70,8 +70,13 @@ class Twig {
 		// init paths
 		$this->template_dir = $this->_ci->config->item('template_dir');
 		$this->cache_dir = $this->_ci->config->item('cache_dir');
+		
+		//get controller name, search template from controller sub directory
+		$controller = $this->_ci->uri->segment(1, 0);
+		
 		// load environment
 		$loader = new Twig_Loader_Filesystem($this->template_dir, $this->cache_dir);
+		$loader->prependPath(APPPATH.'views/' . $controller);  //serch the controller sub view path first.
 		$this->_twig_env = new Twig_Environment($loader, array(
 			'cache' => $this->cache_dir,
 			'auto_reload' => TRUE));
